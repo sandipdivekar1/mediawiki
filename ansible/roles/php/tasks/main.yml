@@ -1,0 +1,10 @@
+--- 
+
+- name: install php modules
+  yum: name={{ item }} update_cache=yes  state=present
+  with_items:
+    - httpd 
+    - php 
+    - php-mysql 
+    - php-gd 
+    - php-xml

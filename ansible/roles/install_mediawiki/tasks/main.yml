@@ -1,0 +1,39 @@
+---
+
+- name: Download mediawiki tar file
+  get_url:
+    url: https://releases.wikimedia.org/mediawiki/{{ media_version }}/mediawiki-{{ media_version }}.1.tar.gz
+    dest: /home/{{ media_user }}
+    mode: 0660
+
+- name: Extract media wiki tar file
+  unarchive:
+    src: /home/{{ media_user }}/mediawiki-{{ media_version }}.1.tar.gz
+    dest: "/var/www/mediawiki-{{ media_version }}.1"
+
+- file:
+    src:  "/var/www/mediawiki-{{ media_version }}.1"
+    dest: /var/www/mediawiki
+    owner: root
+    group: root
+    state: link
+
+- name: Add httpd.conf 
+  template: src=httpd.conf dest=/etc/httpd/conf/httpd.conf owner=root group=root mode=0644
+
+- file:
+    path: "/var/www/mediawiki-{{ media_version }}.1" 
+    owner: apache
+    group: apache
+    mode: 0755
+
+- file:
+    path: /var/www/mediawiki
+    owner: apache
+    group: apache
+    mode: 0777
+
+- name: restart httpd service
+  service:
+    name: httpd
+    state: restarted
