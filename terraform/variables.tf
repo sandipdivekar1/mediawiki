@@ -1,51 +1,71 @@
 variable "region" {}
 variable "availabilityZone" {}
-variable "count" {}
-variable "conncount" {}
 variable "prefix" {}
-variable "instance_type" {}
-variable "subnet_id" {}
-variable "security_group_id" {}
-
-variable "key_name" {}
+variable "media_instance_type" {}
+variable "database_instance_type" {}
 
 variable "root_storage_type" {
     default = "standard"
 }
-
 variable "root_storage_size" {
      default = "20"
 }
-
 variable "root_storage_iops" {
     default = "100"
 }
+variable "database_storage_type" {
+    default = "gp2"
+}
+variable "database_storage_size" {
+    default = "20"
+}
+variable "database_storage_iops" {
+    default = "100"
+}
 
-variable "database_storage_type" {}
-variable "database_storage_size" {}
-variable "database_storage_iops" {}
+variable "instanceTenancy" {
+     default     = "default"
+}
 
-variable "ips" {
-	 default = {
-        "0" = "10.0.1.5"
-        "1" = "10.0.1.6"
-        "2" = "10.0.1.7"
-        "3" = "10.0.1.8"
-        "4" = "10.0.1.9"
-        "5" = "10.0.1.10"
-        }
+variable "dnsSupport" {
+     default     = true
+}
+
+variable "dnsHostNames" {
+    default = true
 }
 
 
-variable "conn_ips" {
-         default = {
-        "0" = "10.0.1.20"
-        "1" = "10.0.1.21"
-        "2" = "10.0.1.22"
-        "3" = "10.0.1.23"
-        "4" = "10.0.1.24"
-        "5" = "10.0.1.25"
-        }
+variable "vpcCIDRblock" {
+    default = "10.0.0.0/16"
+}
+
+variable "subnetCIDRblock" {
+    default = "10.0.1.0/24"
+}
+
+variable "subnetCIDRinternal" {
+    type = "list"
+    default = [ "10.0.1.0/24" ]
+}
+
+variable "destinationCIDRblock" {
+    default = "0.0.0.0/0"
+}
+
+variable "ingressCIDRblock" {
+         type = "list"
+         default = [ "0.0.0.0/0" ]
+}
+
+variable "mapPublicIP" {
+    default = true
+}
+
+variable "mediaami" {
+}
+
+variable "key_name" {
 }
 
 variable "elb_account_id" {
@@ -71,9 +91,4 @@ variable "elb_account_id" {
         "cn-north-1**" = "638102146993"
         "cn-northwest-1**" = "037604701340"
         }
-}
-
-variable "availabilityZones" {
-	 type = "list"
-	 default = [ "us-west-2a", "us-west-2b", "us-west-2c" ]
 }

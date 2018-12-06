@@ -1,33 +1,26 @@
-provider "aws" {
-    shared_credentials_file = "~/.aws/credentials"
-    region     = "${var.region}"
-} # end provider
-
 resource "aws_instance" "mediawiki" {
-    ami = "${lookup(var.ami,var.region)}"
-    count = "${var.count}"
-    #private_ip = "${lookup(var.conn_ips,count.index)}"
+    ami = "${var.mediaami}"
+    count = "2"
     associate_public_ip_address = "1"
     availability_zone       = "${var.availabilityZone}"
-    vpc_security_group_ids = ["${aws_security_group.tungsten_VPC_Security_Group.id}"]
+    vpc_security_group_ids = ["${aws_security_group.media_vpc_Security_Group.id}"]
     key_name = "${var.key_name}"
-    subnet_id = "${var.subnet_id}"
+    subnet_id = "${aws_subnet.media_vpc_Subnet.id}"
     instance_type = "${var.media_instance_type}"
 tags {
-        Name = "${var.prefix}-conn-${count.index + 1}"
+        Name = "${var.prefix}-media-${count.index + 1}"
   }
 } # end resource
 
-resource "aws_instance" "tungsten" {
-    ami = "${data.aws_ami.tungsten.id}"
-    count = "${var.count}"
-    private_ip = "${lookup(var.ips,count.index)}"
+resource "aws_instance" "database" {
+    ami = "${var.mediaami}"
+    count = "1"
     associate_public_ip_address = "1"
     availability_zone       = "${var.availabilityZone}"
-    vpc_security_group_ids = ["${var.security_group_id}"]
+    vpc_security_group_ids = ["${aws_security_group.media_vpc_Security_Group.id}"]
     key_name = "${var.key_name}"
-    subnet_id = "${var.subnet_id}"
-    instance_type = "${var.mysql_instance_type}"
+    subnet_id = "${aws_subnet.media_vpc_Subnet.id}"
+    instance_type = "${var.database_instance_type}"
 
   root_block_device {
     volume_type = "${var.root_storage_type}"
@@ -43,9 +36,7 @@ resource "aws_instance" "tungsten" {
     iops = "${var.database_storage_iops}"
     delete_on_termination = true
     }
-
-
 tags {
-        Name = "${var.prefix}-node-db${count.index + 1}"
+        Name = "${var.prefix}-database"
   }
 } # end resource

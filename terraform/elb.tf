@@ -1,7 +1,3 @@
-terraform {
-  required_version = ">= 0.11.8"
-}
-
 # Add instances with aws elastic load balancer.
 resource "aws_elb" "media_elb" {
   name               = "${var.prefix}-terraform-elb"

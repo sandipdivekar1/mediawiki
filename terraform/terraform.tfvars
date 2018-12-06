@@ -1,0 +1,7 @@
+region = "eu-central-1"
+availabilityZone = "eu-central-1a"
+prefix = "berlin"
+media_instance_type = "t2.small"
+database_instance_type = "t2.small"
+key_name = "tungsten"
+mediaami = "ami-ac7d4147"
