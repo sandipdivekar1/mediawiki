@@ -49,12 +49,26 @@ ingress {
   }
 
 ingress {
+    cidr_blocks = "${var.ingressCIDRblock}"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+  }
+
+  egress {
+    protocol   = "tcp"
+    cidr_blocks = "${var.ingressCIDRblock}"
+    from_port  = 443
+    to_port    = 443
+  }
+
+ingress {
     protocol   = "tcp"
     cidr_blocks = "${var.ingressCIDRblock}"
     from_port  = 80
     to_port    = 80
   }
-# allow egress ephemeral ports
+
   egress {
     protocol   = "tcp"
     cidr_blocks = "${var.ingressCIDRblock}"
@@ -62,18 +76,18 @@ ingress {
     to_port    = 80
   }
 
-  ingress {
+ingress {
     protocol   = "tcp"
-    cidr_blocks = "${var.ingressCIDRblock}"
-    from_port  = 443
-    to_port    = 443
+    cidr_blocks = "${var.subnetCIDRinternal}"
+    from_port  = 3306
+    to_port    = 3306
   }
-# allow egress ephemeral ports
+
   egress {
     protocol   = "tcp"
-    cidr_blocks = "${var.ingressCIDRblock}"
-    from_port  = 443
-    to_port    = 443
+    cidr_blocks = "${var.subnetCIDRinternal}"
+    from_port  = 3306
+    to_port    = 3306
   }
 
 # allow ingress icmp port for ping operation.

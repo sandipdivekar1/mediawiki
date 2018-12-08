@@ -1,6 +1,7 @@
 resource "aws_instance" "mediawiki" {
     ami = "${var.mediaami}"
     count = "2"
+    private_ip = "${lookup(var.ips,count.index)}"
     associate_public_ip_address = "1"
     availability_zone       = "${var.availabilityZone}"
     vpc_security_group_ids = ["${aws_security_group.media_vpc_Security_Group.id}"]
@@ -15,6 +16,7 @@ tags {
 resource "aws_instance" "database" {
     ami = "${var.mediaami}"
     count = "1"
+    private_ip = "10.0.1.30"
     associate_public_ip_address = "1"
     availability_zone       = "${var.availabilityZone}"
     vpc_security_group_ids = ["${aws_security_group.media_vpc_Security_Group.id}"]

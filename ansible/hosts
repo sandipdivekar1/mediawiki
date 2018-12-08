@@ -1,0 +1,6 @@
+[media]
+3.121.110.86   ansible_connection=ssh        ansible_user=ec2-user      ansible_ssh_private_key_file=/root/tungsten.pem
+18.185.56.97   ansible_connection=ssh        ansible_user=ec2-user      ansible_ssh_private_key_file=/root/tungsten.pem
+[database]
+18.196.240.142   ansible_connection=ssh        ansible_user=ec2-user      ansible_ssh_private_key_file=/root/tungsten.pem
+

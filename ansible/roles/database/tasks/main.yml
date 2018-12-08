@@ -1,0 +1,10 @@
+--- 
+
+- name: include mysql ebs volume attach file
+  include: attach_volume.yml
+
+- name: include mysql install file
+  include: mysql_install.yml
+
+- name: include wiki database configure file
+  include: wiki_configure.yml

@@ -68,6 +68,14 @@ variable "mediaami" {
 variable "key_name" {
 }
 
+variable "ips" {
+         default = {
+        "0" = "10.0.1.10"
+        "1" = "10.0.1.20"
+        }
+}
+
+
 variable "elb_account_id" {
          default = {
         "us-east-1" = "127311923021"

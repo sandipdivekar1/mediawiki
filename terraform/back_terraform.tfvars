@@ -1,0 +1,7 @@
+region = "REGION"
+availabilityZone = "ZONE"
+prefix = "berlin"
+media_instance_type = "t2.small"
+database_instance_type = "t2.small"
+key_name = "KEYNAME"
+mediaami = "MEDIAAMI"

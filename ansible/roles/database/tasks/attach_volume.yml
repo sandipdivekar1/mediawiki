@@ -1,0 +1,35 @@
+---
+
+- name: Ensure group "mysql" exists
+  group:
+    name: mysql
+    state: present
+
+- name: add mysql user and in mysql group
+  user:
+    name: mysql
+    group: mysql
+
+- name: create mysql directory
+  file:
+    path: /var/lib/mysql
+    state: directory
+    owner: mysql
+    group: mysql
+    mode: 0700
+
+- name: Create a ext4 filesystem on /dev/sdf
+  filesystem:
+    fstype: ext4
+    dev: /dev/sdf
+
+- name: Mount /dev/sdf on /var/lib/mysql directory
+  mount:
+    path: /var/lib/mysql
+    src: /dev/sdf
+    fstype: ext4
+    opts: defaults,nofail
+    state: present
+
+- name: mount from etc fstab file
+  shell: mount -a

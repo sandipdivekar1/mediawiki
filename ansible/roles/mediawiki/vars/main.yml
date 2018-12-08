@@ -1,0 +1,5 @@
+---
+media_version: "1.26"
+media_user: "ec2-user"
+wiki_user: "wiki"
+wiki_database: "wikidatabase"

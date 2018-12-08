@@ -1,0 +1,51 @@
+---
+
+- name: install apache and http packages
+  yum: name={{ item }} update_cache=yes  state=present
+  with_items:
+    - httpd
+    - php
+    - php-mysql
+    - php-gd
+    - php-xml
+
+- name: Download mediawiki tar file
+  get_url:
+    url: "https://releases.wikimedia.org/mediawiki/{{ media_version }}/mediawiki-{{ media_version }}.1.tar.gz"
+    dest: "/home/{{ media_user }}"
+    mode: 0660
+
+- name: Extract media wiki tar file
+  shell: tar xf "/home/{{ media_user }}/mediawiki-{{ media_version }}.1.tar.gz"
+  args:
+    chdir: /var/www
+
+- file:
+    src:  "/var/www/mediawiki-{{ media_version }}.1"
+    dest: /var/www/mediawiki
+    owner: apache
+    group: apache
+    mode: 0777
+    state: link
+
+- name: ensure LocalSettings.php file
+  template:
+    src: LocalSettings.php
+    dest: "/var/www/mediawiki-{{ media_version }}.1/LocalSettings.php"
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Add httpd.conf 
+  template: src=httpd.conf dest=/etc/httpd/conf/httpd.conf owner=root group=root mode=0644
+
+- file:
+    path: "/var/www/mediawiki-{{ media_version }}.1" 
+    owner: apache
+    group: apache
+    mode: 0755
+
+- name: restart httpd service
+  service:
+    name: httpd
+    state: restarted

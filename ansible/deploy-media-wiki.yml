@@ -1,1 +1,16 @@
 ---
+
+- hosts: database
+  vars_files:
+    - auth.yml
+  sudo: yes
+  roles:
+    - database
+
+- hosts: media
+  become: true
+  become_user: root
+  vars_files:
+    - auth.yml
+  roles:
+    - mediawiki 
