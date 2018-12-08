@@ -80,6 +80,7 @@ chmod +x terraform/terraform.tfvars
 # Execution of terraform script
 ##
 cd terraform
+terraform init
 terraform apply -auto-approve=true
 media_hosts=`terraform output media_public_ips`
 db_hosts=`terraform output database_public_ip`
